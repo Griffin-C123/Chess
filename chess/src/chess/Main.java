@@ -4,10 +4,14 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+		
+		//instantiate methods
 		Scanner scan = new Scanner(System.in);
 		Board board = new Board();
 		
+		//instantiate variables
 		String cordsog, cordnew;
+		
 		//Print game rules
 		System.out.print("Chess Game\nTwo people are required to play.\nPlayer 1 is light and always goes first.\nEvery piece is shortened to a letter with your player number preceeding it.\nThis is a key.\nKing=K, Queen=Q, Rook=R, Bishop=B, Knight=H, Pawn=P\n\n");
 		
@@ -16,38 +20,41 @@ public class Main {
 			//Prints Chess Board
 			System.out.print(board.toString());
 			
-			//Prints 
+			//Uses the players inputs to move the piece if possible and if not will notify player to try again for player 1
 			do {
 			System.out.print("Player 1 Enter the cordinates for the piece you want to move.\n");
 			cordsog = scan.nextLine();
 			System.out.print("Enter the cordinates of where you want to move the piece.\n");
 			cordnew = scan.nextLine();
-			if(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew))) {
+			if(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew), 1)) {
 				board.move(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew));
 			}
 			else {
 				System.out.print("Your piece cannot move there please choose another place.\n\n");
 			}
-			}while(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew))!=true);
+			}while(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew), 1)!=true);
 			
+			//prints chess board with latest changes
 			System.out.print(board.toString());
 			
+			//Uses the players inputs to move the piece if possible and if not will notify player to try again for player 1
 			do {
 				System.out.print("Player 2 Enter the cordinates for the piece you want to move.\n");
 				cordsog = scan.nextLine();
 				System.out.print("Enter the cordinates of where you want to move the piece.\n");
 				cordnew = scan.nextLine();
-				if(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew))) {
+				if(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew),2)) {
 					board.move(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew));
 				}
 				else {
 					System.out.print("Your piece cannot move there please choose another place.\n\n");
 				}
-				}while(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew))!=true);
+				}while(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew),2)!=true);
 			
 		}
 	}
 	
+	//method to convert the String the player inputs into a x coordinate for the board class
 	public static int xcord(String inp) {
 		switch(inp.substring(0, 1).toLowerCase()) {
 		case "a": return 0; 
@@ -61,6 +68,8 @@ public class Main {
 		}
 		return 0;
 	}
+	
+	//method to convert the String the player inputs into a y coordinate for the board class
 	public static int ycord(String inp) {
 		switch(inp.substring(1)) {
 		case "8": return 0; 

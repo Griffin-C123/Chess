@@ -7,18 +7,21 @@ public class King implements Piece{
 		this.player=player;
 	}
 	
+	//Returns what the player will see as the icon
 	public String getIcon() {
 		if(this.player==1)
 			return "1K";
 		return "2K";
 	}
 	
+	//Makes sure the piece won't go out of bounds and will follow the rules that the piece must follow
 	public boolean checkSpace(int xo, int yo, int x, int y) {
 		if(x<7 & y<7 & ((xo == x &(yo == y+1 || yo ==y-1))||(yo == y &(xo == x+1 || xo ==x+2))))
 			return true;
 		return false;
 	}
 	
+	//returns the player using this piece
 	public int getPlayer() {
 		return this.player;
 	}
