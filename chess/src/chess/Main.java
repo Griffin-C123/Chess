@@ -11,6 +11,8 @@ public class Main {
 		
 		//instantiate variables
 		String cordsog, cordnew;
+		boolean safeMove;
+		int winPlayer;
 		
 		//Print game rules
 		System.out.print("Chess Game\nTwo people are required to play.\nPlayer 1 is light and always goes first.\nEvery piece is shortened to a letter with your player number preceeding it.\nThis is a key.\nKing=K, Queen=Q, Rook=R, Bishop=B, Knight=H, Pawn=P\n\n");
@@ -22,34 +24,48 @@ public class Main {
 			
 			//Uses the players inputs to move the piece if possible and if not will notify player to try again for player 1
 			do {
-			System.out.print("Player 1 Enter the cordinates for the piece you want to move.\n");
-			cordsog = scan.nextLine();
-			System.out.print("Enter the cordinates of where you want to move the piece.\n");
-			cordnew = scan.nextLine();
-			if(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew), 1)) {
-				board.move(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew));
-			}
-			else {
-				System.out.print("Your piece cannot move there please choose another place.\n\n");
-			}
-			}while(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew), 1)!=true);
+				//Players input is the coordinates
+				System.out.print("Player 1 Enter the coordinates for the piece you want to move.\n");
+				cordsog = scan.nextLine();
+				System.out.print("Enter the coordinates of where you want to move the piece.\n");
+				cordnew = scan.nextLine();
+				
+				//Checks if a move is possible
+				safeMove=board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew), 1);
+				board.isCheck(1);
+				
+				//If else making sure that the piece is able to move restarts the while loop if false
+				if(safeMove&board.getIsCheck()==0) 
+					board.move(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew));
+				else if(board.getIsCheck()==1)
+					System.out.print("Your king is in check PROTECT IT!!!\n\n");
+				else 
+					System.out.print("Your piece cannot move there please choose another place.\n\n");
+			}while((safeMove&board.getIsCheck()==0)!=true);
 			
 			//prints chess board with latest changes
 			System.out.print(board.toString());
 			
 			//Uses the players inputs to move the piece if possible and if not will notify player to try again for player 1
 			do {
-				System.out.print("Player 2 Enter the cordinates for the piece you want to move.\n");
+				//Players input is the coordinates
+				System.out.print("Player 2 Enter the coordinates for the piece you want to move.\n");
 				cordsog = scan.nextLine();
-				System.out.print("Enter the cordinates of where you want to move the piece.\n");
+				System.out.print("Enter the coordinates of where you want to move the piece.\n");
 				cordnew = scan.nextLine();
-				if(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew),2)) {
+				
+				//calls board methods one returns if a move is safe the other sets the board looks at the board and determines if there is a check
+				safeMove=board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew), 2);
+				board.isCheck(2);
+				
+				//If else making sure that the piece is able to move restarts the while loop if false
+				if(safeMove&board.getIsCheck()==0) 
 					board.move(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew));
-				}
-				else {
+				else if(board.getIsCheck()==1)
+					System.out.print("Your king is in check PROTECT IT!!!\n\n");
+				else 
 					System.out.print("Your piece cannot move there please choose another place.\n\n");
-				}
-				}while(board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew),2)!=true);
+			}while((safeMove&board.getIsCheck()==0)!=true);
 			
 		}
 	}

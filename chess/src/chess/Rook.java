@@ -9,9 +9,7 @@ public class Rook implements Piece{
 	
 	//Returns what the player will see as the icon
 	public String getIcon() {
-		if(this.player==1)
-			return "1R";
-		return "2R";
+		return this.player+"R";
 	}
 	
 	//Makes sure the piece won't go out of bounds and will follow the rules that the piece must follow

@@ -5,6 +5,15 @@ public class Board {
 	//initializes private interface to store the chess pieces
 	private Piece[][] board;
 	
+	//Initialize storage of king position for search function
+	private int kingPosX = 0;
+	private int kingPosY = 0;
+	private boolean canMove = false;
+	private boolean pieceCanMove = false;
+	private int test =0;
+	private int check=0;
+	
+	//Constructs the chess board placing all of the pieces
 	public Board() {
 		
 		//instantiates the board variable
@@ -62,16 +71,64 @@ public class Board {
 		return board;
 	}
 	
-	//Checks if a piece on the same team is in the way
+	//sets the can move variable to false to allow the returning of the correct statement when checkMoveRec is called
 	public boolean checkMove(int xo, int yo, int x, int y, int player) {
-		if((this.board[xo][yo].checkSpace(xo, yo, x, y))&player!=this.board[x][y].getPlayer()) 
-			return true;
-		return false;
+		this.canMove=false;
+		checkMoveRec(xo,yo,x,y,player);
+		return this.canMove;
+	}
+	
+	//Checks if a piece can move to a position changing the variable can move if possible
+	void checkMoveRec(int xo, int yo, int x, int y, int player) {
+		if((this.board[xo][yo].checkSpace(xo, yo, x, y))&player!=this.board[x][y].getPlayer()&(xo!=x||yo!=y)) {
+			this.test++;
+			checkMoveRec(xo,yo,x-(x-xo),y-(y-yo),player);
+		}
+		if((this.test>0&(xo==x&yo==y))||(this.board[xo][yo].getIcon().equals(player+"H")&this.board[xo][yo].checkSpace(xo, yo, x, y))&player!=this.board[x][y].getPlayer()) {
+			this.canMove = true;
+			this.test=0;
+		}
 	}
 	
 	//moves the piece to the given coordinates
 	public void move(int xo, int yo, int x, int y) {
 		this.board[x][y] = this.board[xo][yo];
 		this.board[xo][yo] = new Blank();
+	}
+	
+	//Iterates through every position on the board and checks if a piece can move/attack the king
+	public void isCheck(int player) {
+		this.check=0;
+		searchKing(player);
+		for(int x=0; x<8; x++) {
+			for(int y=0; y<8; y++) {
+				checkMove(x, y, this.kingPosX, this.kingPosY, player);
+				if(this.canMove) {
+					this.check=1;
+				}
+			}
+		}
+	}
+	
+	//finds the king of the player given
+	public void searchKing(int player) {
+		for(int x=0; x<8; x++) {
+			for(int y=0; y<8; y++) {
+				if(this.board[x][y].getIcon().equals(player+"K")) {
+					this.kingPosX = x;
+					this.kingPosY = y;
+				}
+			}
+		}
+	}
+	
+	//returns the boolean can move 
+	public boolean getCanMove() {
+		return this.canMove;
+	}
+	
+	//returns the integer check
+	public int getIsCheck() {
+		return this.check;
 	}
 }

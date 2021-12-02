@@ -8,9 +8,7 @@ public class Knight implements Piece{
 	
 	//Returns what the player will see as the icon
 	public String getIcon() {
-		if(this.player==1)
-			return "1H";
-		return "2H";
+		return this.player+"H";
 	}
 	
 	//Makes sure the piece won't go out of bounds and will follow the rules that the piece must follow
