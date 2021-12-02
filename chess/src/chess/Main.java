@@ -30,11 +30,11 @@ public class Main {
 				System.out.print("Enter the coordinates of where you want to move the piece.\n");
 				cordnew = scan.nextLine();
 				
-				//Checks if a move is possible
+				//calls board methods one returns if a move is safe the other sets the board looks at the board and determines if there is a check
 				safeMove=board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew), 1);
 				board.isCheck(1);
 				
-				//If else making sure that the piece is able to move restarts the while loop if false
+				//If else making sure that the piece is able to move restarts the while loop if false and not in check
 				if(safeMove&board.getIsCheck()==0) 
 					board.move(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew));
 				else if(board.getIsCheck()==1)
@@ -58,7 +58,7 @@ public class Main {
 				safeMove=board.checkMove(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew), 2);
 				board.isCheck(2);
 				
-				//If else making sure that the piece is able to move restarts the while loop if false
+				//If else making sure that the piece is able to move restarts the while loop if false and not in check
 				if(safeMove&board.getIsCheck()==0) 
 					board.move(xcord(cordsog), ycord(cordsog), xcord(cordnew), ycord(cordnew));
 				else if(board.getIsCheck()==1)
